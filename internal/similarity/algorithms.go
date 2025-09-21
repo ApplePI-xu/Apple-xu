@@ -41,3 +41,49 @@ func (a *Algorithms) EditDistance(str1, str2 string) int {
 
 	return dp[m][n]
 }
+
+func (a *Algorithms) CalcCharSimilarity(str1, str2 string) float64 {
+	editDit := a.EditDistance(str1, str2)
+	maxlen := max(len([]rune(str1)), len([]rune(str2)))
+	if maxlen == 0 {
+		return 1.0
+	}
+	return max(0, 1.0-float64(editDit)/float64(maxlen))
+
+}
+
+// CalcSegSimilarity 分段计算长文本的相似度
+func (a *Algorithms) CalcSegSimilarity(segs1, segs2 []string) float64 {
+	if len(segs1) == 0 && len(segs2) == 0 {
+		return 1.0
+	}
+	if len(segs1) == 0 || len(segs2) == 0 {
+		return 0.0
+	}
+
+	// 计算每个段落的最佳匹配相似度
+	totalSimilarity := 0.0
+	totalWeight := 0.0
+
+	//seg1为原文，segs2为比较版，使用seg2与seg1进行比较
+	for _, seg2 := range segs2 {
+		maxSimilarity := 0.0
+		seglen := float64(len([]rune(seg2)))
+
+		if seglen == 0 {
+			continue
+		}
+
+		for _, seg1 := range segs1 {
+			similarity := a.CalcCharSimilarity(seg1, seg2)
+			if similarity > maxSimilarity {
+				maxSimilarity = similarity
+			}
+		}
+
+		totalSimilarity += maxSimilarity * seglen
+		totalWeight += seglen
+	}
+
+	return totalSimilarity / totalWeight
+}
