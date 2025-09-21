@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unicode"
 )
 
 // FileHandler 文件处理器
@@ -54,7 +55,10 @@ func (fh *FileHandler) WriteFile(filePath string, content string) error {
 }
 
 func (fh *FileHandler) PreprocessText(text string) string {
-	text = strings.TrimSpace(text) // 去除首尾空格
-	// 替换多个空格为单个空格
-	return strings.Join(strings.Fields(text), " ")
+	// 转换为小写
+	text = strings.ToLower(text)
+
+	// 移除多余的空白字符
+	words := strings.FieldsFunc(text, unicode.IsSpace)
+	return strings.Join(words, " ")
 }
