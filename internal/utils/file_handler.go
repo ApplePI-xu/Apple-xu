@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"unicode"
 )
 
 // FileHandler 文件处理器
@@ -59,6 +58,9 @@ func (fh *FileHandler) PreprocessText(text string) string {
 	text = strings.ToLower(text)
 
 	// 移除多余的空白字符
-	words := strings.FieldsFunc(text, unicode.IsSpace)
+	words := strings.FieldsFunc(text, func(r rune) bool {
+		return r == ' ' || r == '\t' // 仅移除空格和制表符
+	})
+
 	return strings.Join(words, " ")
 }
