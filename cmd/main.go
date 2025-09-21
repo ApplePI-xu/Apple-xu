@@ -45,7 +45,8 @@ func main() {
 	result := formatter.FmtSimilarityAsPct(similarity)
 
 	// 写入结果文件
-	err = fileHandler.WriteFile(outputFilePath, result)
+	msg := originalFilePath + "   " + plagiarizedFilePath + "   " + result
+	err = fileHandler.WriteFile(outputFilePath, msg)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "写入结果文件失败: %v\n", err)
 		os.Exit(1)
