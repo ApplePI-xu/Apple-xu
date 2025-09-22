@@ -72,27 +72,6 @@ go build -o paper-checker.exe ./cmd
 go run ./cmd <原文文件路径> <抄袭版文件路径> <输出文件路径>
 ```
 
-
-### 运行单元测试
-
-```bash
-# 运行所有测试（推荐）
-## 测试
-
-# 运行某个模块的测试
-go test ./internal/similarity
-go test ./internal/utils
-
-# 运行带详细输出的测试
-go test -v ./internal/...
-
-# 运行特定测试函数
-go test -v ./internal/similarity -run TestCalculateSimilarity
-go test -v ./internal/utils -run TestFormatSimilarityAsPercentage
-```
-
-各模块均有对应的测试文件（如 checker_test.go、formatter_test.go、file_handler_test.go），可直接运行。
-
 ### 运行单元测试
 
 ```bash
